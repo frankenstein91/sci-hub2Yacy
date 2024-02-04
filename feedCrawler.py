@@ -40,7 +40,10 @@ def main():
     dois = client.compute(dois)
     dois = dois.result()
     for yacy in dois['yacy']:
-        print(yacy)
+        if args.yuser and args.ypass:
+            requests.get(yacy, auth=(args.yuser, args.ypass))
+        else:
+            requests.get(yacy)
 
 
 if __name__ == '__main__':
