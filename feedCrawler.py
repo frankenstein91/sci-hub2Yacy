@@ -9,6 +9,7 @@ from dask.distributed import Client
 import argparse
 import random
 import os
+import requests
 
 def main():
     #region argparse
@@ -36,10 +37,10 @@ def main():
     # create the YaCy API Call URLs
     dois['yacy'] = dois.apply(lambda row: f"{random.choice(args.ys)}/Crawler_p.html?crawlingDomMaxPages=10000&range=wide&crawlingMode=url&crawlingURL={row['url']}&crawlingstart=NewCrawlSciHub&xsstopw=on&indexMedia=on&indexText=on&crawlingDepth=1", axis=1, meta=('yacy', 'str'))
 
-    dois = client.persist(dois)
-    pd.set_option('display.width', None)
-    pd.set_option("display.max_colwidth", None)
-    print(dois.head())
+    dois = client.compute(dois)
+    dois = dois.result()
+    for yacy in dois['yacy']:
+        print(yacy)
 
 
 if __name__ == '__main__':
