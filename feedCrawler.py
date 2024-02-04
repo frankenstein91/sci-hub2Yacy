@@ -35,7 +35,7 @@ def main():
     dois['url'] = dois.apply(lambda row: random.choice(args.shs)+'/'+row['doi'], axis=1, meta=('url', 'str'))
 
     # create the YaCy API Call URLs
-    dois['yacy'] = dois.apply(lambda row: f"{random.choice(args.ys)}/Crawler_p.html?crawlingDomMaxPages=10000&range=wide&crawlingMode=url&crawlingURL={row['url']}&crawlingstart=NewCrawlSciHub&xsstopw=on&indexMedia=on&indexText=on&crawlingDepth=1", axis=1, meta=('yacy', 'str'))
+    dois['yacy'] = dois.apply(lambda row: f"{random.choice(args.ys)}/Crawler_p.html?crawlingDomMaxPages=10000&range=wide&crawlingMode=url&crawlingURL={row['url']}&crawlingstart=NewCrawlSciHub&xsstopw=on&indexMedia=on&indexText=on&crawlingDepth=1&directDocByURL=on", axis=1, meta=('yacy', 'str'))
 
     dois = client.compute(dois)
     dois = dois.result()
