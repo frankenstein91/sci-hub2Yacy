@@ -3,7 +3,8 @@
 
 # only needed for set_option
 import pandas as pd
-
+import time
+from random import randrange
 from dask import dataframe as ddf
 from dask.distributed import Client
 import argparse
@@ -48,6 +49,7 @@ def main():
         else:
             result=requests.get(yacy)
         print(result.text)
+        time.sleep(randrange(10))
 
 if __name__ == '__main__':
     main()
