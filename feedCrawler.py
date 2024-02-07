@@ -10,6 +10,7 @@ import argparse
 import random
 import os
 import requests
+from requests.auth import HTTPDigestAuth
 
 def main():
     #region argparse
@@ -40,11 +41,13 @@ def main():
     dois = client.compute(dois)
     dois = dois.result()
     for yacy in dois['yacy']:
+        print(f"Sending {yacy} to YaCy")
         if args.yuser and args.ypass:
-            requests.get(yacy, auth=(args.yuser, args.ypass))
+            basicAuth=HTTPDigestAuth(args.yuser, args.ypass)
+            result=requests.get(yacy, auth=basicAuth)
         else:
-            requests.get(yacy)
-
+            result=requests.get(yacy)
+        print(result.text)
 
 if __name__ == '__main__':
     main()
